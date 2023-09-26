@@ -358,6 +358,10 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
     <script src="js/dsnyPlannedCommercialWasteZones.js"></script>
     <script src="js/CommunityDistricts.js"></script>
+    <script src="js/AssemblyDistricts.js"></script>
+    <script src="js/CityCouncilDistricts.js"></script>
+    <script src="js/StateSenateDistricts.js"></script>
+    <script src="js/CongressionalDistricts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.9/d3.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/d3-format@3"></script>
     <script src="js/Leaflet.D3SvgOverlay-master/L.D3SvgOverlay.min.js"></script>
@@ -488,12 +492,12 @@
           
 
           info.update = function(props){
-            var carters = 
-            this._div.innerHTML = 
-            (props ?  
-               props.id : '') +
-            '<h4>' 
-            + '<b>'
+            if (props.id == 'cwz') {
+            //var carters = 
+            this._div.innerHTML = "<h3> CWZ Zone Info </h3>" +
+            
+            "<h4>" + 
+            '<b>'
             + (props ?  
                props.zone : 'Hover over a zone') 
                + '</b>' + '</h4>'
@@ -503,7 +507,71 @@
                props.zone_name:'') + '</h5>'
                + '<h6>' 
                 + (props ?
-               props.cd:'') + '</h6>' ;
+               props.cd:'') + '</h6>' ;}
+               else if (props.id == "Community District"){
+               // var carters = 
+            this._div.innerHTML =  "<h3> Community District</h3>" +
+            
+            "<h4>" + 
+           '<b>'
+            + "CD" + (props ?  
+               props.boro_cd : 'Hover over a zone') 
+               + '</b>' + '</h4>'
+            
+
+               }
+               else if (props.id == "Assembly Districts"){
+               // var carters = 
+            this._div.innerHTML =  "<h3> State Assembly Districts</h3>" +
+            
+            "<h4>" + 
+           '<b>'
+             + (props ?  
+               props.AssemDist : 'Hover over a zone') 
+               + '</b>' + '</h4>'
+            
+
+               }
+
+               else if (props.id == "City Council Districts"){
+               // var carters = 
+            this._div.innerHTML =  "<h3> City Council Districts</h3>" +
+            
+            "<h4>" + 
+           '<b>'
+             + (props ?  
+               props.CounDist : 'Hover over a zone') 
+               + '</b>' + '</h4>'
+            
+
+               }
+               else if (props.id == "State Senate Districts"){
+               // var carters = 
+            this._div.innerHTML =  "<h3> State Senate Districts</h3>" +
+            
+            "<h4>" + 
+           '<b>'
+             + (props ?  
+               props.StSenDist : 'Hover over a zone') 
+               + '</b>' + '</h4>'
+            
+
+               }
+
+               else if (props.id == "US Congressional Districts"){
+               // var carters = 
+            this._div.innerHTML =  "<h3> U.S. Congressional Districts</h3>" +
+            
+            "<h4>" + 
+           '<b>'
+             + (props ?  
+               props.CongDist : 'Hover over a zone') 
+               + '</b>' + '</h4>'
+            
+
+               }
+
+               
             
           };
 
@@ -518,6 +586,26 @@
                 
             }
 
+            function resetAssemblyHighlight(e) {
+                assemblyLayer.resetStyle(e.target);
+                
+            }
+
+            function resetCityCouncilHighlight(e) {
+                cityCouncilLayer.resetStyle(e.target);
+                
+            }
+
+            function resetStateSenateHighlight(e) {
+                stateSenateLayer.resetStyle(e.target);
+                
+            }
+
+            function resetCongressionalHighlight(e) {
+                congressionalLayer.resetStyle(e.target);
+                
+            }
+
             function zoomToFeature(e) {
                 map.fitBounds(e.target.getBounds());
             }
@@ -526,10 +614,10 @@
                 var layer = e.target;
 
                 layer.setStyle({
-                    weight: 1.2,
+                    weight: 1.5,
                     dashArray: '',
-                    opacity: 0.8,
-                    fillOpacity: 0.4
+                    opacity: 0.9,
+                    fillOpacity: 0.7
                 });
 
                 if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
@@ -550,6 +638,38 @@
                 layer.on({
                     mouseover: highlightFeature,
                     mouseout: resetCdHighlight,
+                    click: zoomToFeature
+                });
+            }
+
+            function onAssemblyEachFeature(feature, layer) {
+                layer.on({
+                    mouseover: highlightFeature,
+                    mouseout: resetAssemblyHighlight,
+                    click: zoomToFeature
+                });
+            }
+
+            function onCityCouncilEachFeature(feature, layer) {
+                layer.on({
+                    mouseover: highlightFeature,
+                    mouseout: resetCityCouncilHighlight,
+                    click: zoomToFeature
+                });
+            }
+
+            function onStateSenateEachFeature(feature, layer) {
+                layer.on({
+                    mouseover: highlightFeature,
+                    mouseout: resetStateSenateHighlight,
+                    click: zoomToFeature
+                });
+            }
+
+            function onCongressionalEachFeature(feature, layer) {
+                layer.on({
+                    mouseover: highlightFeature,
+                    mouseout: resetCongressionalHighlight,
                     click: zoomToFeature
                 });
             }
@@ -706,11 +826,52 @@
                     fillColor: '#ff33cc',
                     color: '#800060',
                 }, onEachFeature: onCdEachFeature});
+            assemblyLayer = L.geoJson(assembly, {style: {
+                    weight: 1,
+                    dashArray: '1',
+                    opacity: 0.5,
+                    fillOpacity: 0.3,
+                    fillColor: '#6b5b95',
+                    color: '#6b5b95',
+                }, onEachFeature: onAssemblyEachFeature});
+
+            cityCouncilLayer = L.geoJson(cityCouncil, {style: {
+                    weight: 1,
+                    dashArray: '1',
+                    opacity: 0.5,
+                    fillOpacity: 0.3,
+                    fillColor: '#77a8a8',
+                    color: '#77a8a8',
+                }, onEachFeature: onCityCouncilEachFeature});
+
+            stateSenateLayer = L.geoJson(stateSenate, {style: {
+                    weight: 1,
+                    dashArray: '1',
+                    opacity: 0.5,
+                    fillOpacity: 0.3,
+                    fillColor: '#7386e6',
+                    color: '#7386e6',
+                }, onEachFeature: onStateSenateEachFeature});
+
+                congressionalLayer = L.geoJson(congressional, {style: {
+                    weight: 1,
+                    dashArray: '1',
+                    opacity: 0.5,
+                    fillOpacity: 0.3,
+                    fillColor: '#af4a2f',
+                    color: '#af4a2f',
+                }, onEachFeature: onCongressionalEachFeature});
+
+            
             //zoneLayer = L.geoJson(zone, {style: zoneOptions});
         //zoneLayer = L.geoJson(zone)
             var overlayMaps = {
                 "<span class='green-text text-darken-4 layersize'>CWZ Zones</span>": zoneLayer,
-                "<span class='green-text text-darken-4 layersize'>Community Districts</span>": cdLayer
+                "<span class='green-text text-darken-4 layersize'>Community Districts</span>": cdLayer,
+                "<span class='green-text text-darken-4 layersize'>State Assembly Districts</span>": assemblyLayer,
+                "<span class='green-text text-darken-4 layersize'>State Senate Districts</span>": stateSenateLayer,
+                "<span class='green-text text-darken-4 layersize'>U.S. Congressional Districts</span>": congressionalLayer,
+                "<span class='green-text text-darken-4 layersize'>City Council Districts</span>": cityCouncilLayer
             }
             var layerControl = L.control.layers(baseMaps, overlayMaps,  {position: 'bottomright'}).addTo(map);
             googleStreets.addTo(map);
