@@ -28,9 +28,9 @@
         }
 
         #map {
-            height: 90%;
+            height: 100%;
             width: 100%;
-            background-color: #f5eded;
+            background-color: white;/*#f5eded*/;
             pointer-events: all;
         }
 
@@ -302,9 +302,8 @@
     <title>BCW</title>
 </head>
 <body>
-    <h1>DSNY Commercial Waste Zones</h1>
-    <h3>Use the layer menu to view additional map layers</h3>
-    <p>testing only, not for public use.</p>
+    <h1>This is the DSNY NYC</h1>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam ratione quaerat quidem aspernatur dicta rerum nemo perspiciatis, molestias adipisci temporibus, repellat nihil quia sequi velit tempora aut praesentium, explicabo non?</p>
     <div class="container-fluid dobmain" style="margin-top:20px;">
         <div class="row">
               <div class="col-lg-12" style="height:96vh">
@@ -319,7 +318,8 @@
                     </div>
                   </div>
               </div>
-                  <div class="col-lg-3" style="height:100%">
+              <!-- 
+                <div class="col-lg-3" style="height:100%">
                     <div class="newchart" style="padding:5px 5px 0px 5px;border:1px solid black;height:100%;width:100%;">
                         <div class="chart-wrapper">
                           <div class="chart-stage" id="chart-01">
@@ -353,7 +353,7 @@
                           </div>
                         </div>
                     </div>
-                  </div>
+                  </div>  -->
         </div>
     
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
@@ -363,6 +363,8 @@
     <script src="js/CityCouncilDistricts.js"></script>
     <script src="js/StateSenateDistricts.js"></script>
     <script src="js/CongressionalDistricts.js"></script>
+    <script src="js/CityCouncilDistricts2024.js"></script>
+    <script src="js/cwz_20240206.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.9/d3.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/d3-format@3"></script>
     <script src="js/Leaflet.D3SvgOverlay-master/L.D3SvgOverlay.min.js"></script>
@@ -536,7 +538,7 @@
 
                else if (props.id == "City Council Districts"){
                // var carters = 
-            this._div.innerHTML =  "<h3> City Council Districts</h3>" +
+            this._div.innerHTML =  "<h3>Old City Council Districts</h3>" +
             
             "<h4>" + 
            '<b>'
@@ -546,6 +548,20 @@
             
 
                }
+
+               else if (props.id == "City Council Districts 2024"){
+               // var carters = 
+            this._div.innerHTML =  "<h3>City Council Districts 2024</h3>" +
+            
+            "<h4>" + 
+           '<b>'
+             + (props ?  
+               props.CounDist : 'Hover over a zone') 
+               + '</b>' + '</h4>'
+            
+
+               }
+
                else if (props.id == "State Senate Districts"){
                // var carters = 
             this._div.innerHTML =  "<h3> State Senate Districts</h3>" +
@@ -582,6 +598,11 @@
                 
             }
 
+            function resetZone2024Highlight(e) {
+                zone2024Layer.resetStyle(e.target);
+                
+            }
+
             function resetCdHighlight(e) {
                 cdLayer.resetStyle(e.target);
                 
@@ -596,6 +617,11 @@
                 cityCouncilLayer.resetStyle(e.target);
                 
             }
+
+            function resetCityCouncil2024Highlight(e) {
+                cityCouncil2024Layer.resetStyle(e.target);
+                
+            } 
 
             function resetStateSenateHighlight(e) {
                 stateSenateLayer.resetStyle(e.target);
@@ -635,6 +661,14 @@
                 });
             }
 
+            function onZone2024EachFeature(feature, layer) {
+                layer.on({
+                    mouseover: highlightFeature,
+                    mouseout: resetZone2024Highlight,
+                    click: zoomToFeature
+                });
+            }
+
             function onCdEachFeature(feature, layer) {
                 layer.on({
                     mouseover: highlightFeature,
@@ -658,6 +692,14 @@
                     click: zoomToFeature
                 });
             }
+
+             function onCityCouncilEach2024Feature(feature, layer) {
+                layer.on({
+                    mouseover: highlightFeature,
+                    mouseout: resetCityCouncil2024Highlight,
+                    click: zoomToFeature
+                });
+            } 
 
             function onStateSenateEachFeature(feature, layer) {
                 layer.on({
@@ -801,6 +843,131 @@
                 
                 };
 
+
+                function zone2024Options(feature)  {
+
+                    var styles = {
+                        weight: 1,
+                        dashArray: '1',
+                        opacity: 0.9,
+                        fillOpacity: 0.9,
+                    };
+
+
+                    if (feature.properties.zone_name == 'Midtown South'){
+                    styles.fillColor = "#ffffff";
+                    styles.color = "#ffffff";
+                    return styles;
+
+                    } else if (feature.properties.zone_name == 'Bronx East'){
+                    styles.fillColor = "#ffffff";
+                    styles.color = "#ffffff";
+                    return styles;
+
+                    } else if (feature.properties.zone_name == 'Bronx West'){
+                    styles.fillColor = "#ffffff";
+                    styles.color = "#ffffff";
+                    return styles;
+
+                    } else if (feature.properties.zone_name == 'Upper Manhattan'){
+                    styles.fillColor = "#ffffff";
+                    styles.color = "#ffffff";
+                    return styles;
+
+                    } else if (feature.properties.zone_name == 'Manhattan Northeast'){
+                    styles.fillColor = "#ffffff";
+                    styles.color = "#ffffff";
+                    return styles;
+
+                    } else if (feature.properties.zone_name == 'Manhattan West'){
+                    styles.fillColor = "#ffffff";
+                    styles.color = "#ffffff";
+                    return styles;
+
+                    } else if (feature.properties.zone_name == 'Midtown North'){
+                    styles.fillColor = "#ffffff";
+                    styles.color = "#ffffff";
+                    return styles;
+
+                    } else if (feature.properties.zone_name == 'Manhattan Southwest'){
+                    styles.fillColor = "#ffffff";
+                    styles.color = "#ffffff";
+                    return styles;
+
+                    } else if (feature.properties.zone_name == 'Manhattan Southeast'){
+                    styles.fillColor = "#ffffff";
+                    styles.color = "#ffffff";
+                    return styles;
+
+                    } else if (feature.properties.zone_name == 'Lower Manhattan'){
+                    styles.fillColor = "#ffffff";
+                    styles.color = "#ffffff";
+                    return styles;
+
+                    } else if (feature.properties.zone_name == 'Queens West'){
+                    styles.fillColor = "#ffffff";
+                    styles.color = "#ffffff";
+                    return styles;
+
+                    } else if (feature.properties.zone_name == 'Queens West'){
+                    styles.fillColor = "#ffffff";
+                    styles.color = "#ffffff";
+                    return styles;
+
+                    } else if (feature.properties.zone_name == 'Queens Northeast'){
+                    styles.fillColor = "#ffffff";
+                    styles.color = "#ffffff";
+                    return styles;
+
+                    } else if (feature.properties.zone_name == 'Queens Central'){
+                    styles.fillColor = "#ff9933";
+                    styles.color = "#ff9933";
+                    return styles;
+
+                    } else if (feature.properties.zone_name == 'Brooklyn North'){
+                    styles.fillColor = "#ffffff";
+                    styles.color = "#ffffff";
+                    return styles;
+
+                    } else if (feature.properties.zone_name == 'Brooklyn West'){
+                    styles.fillColor = "#ffffff";
+                    styles.color = "#ffffff";
+                    return styles;
+
+                    } else if (feature.properties.zone_name == 'Brooklyn East'){
+                    styles.fillColor = "#ffffff";
+                    styles.color = "#ffffff";
+                    return styles;
+
+                    } else if (feature.properties.zone_name == 'Queens Southeast'){
+                    styles.fillColor = "#ffffff";
+                    styles.color = "#ffffff";
+                    return styles;
+
+                    } else if (feature.properties.zone_name == 'Brooklyn South'){
+                    styles.fillColor = "#ffffff";
+                    styles.color = "#ffffff";
+                    return styles;
+
+                    } else if (feature.properties.zone_name == 'Brooklyn Southwest'){
+                    styles.fillColor = "#ffffff";
+                    styles.color = "#ffffff";
+                    return styles;
+
+                    } else if (feature.properties.zone_name == 'Staten Island'){
+                    styles.fillColor = "#ffffff";
+                    styles.color = "#ffffff";
+                    return styles;
+
+                    } else {
+                    styles.fillColor = "#ffffff";
+                    styles.color = "#ffffff";
+                    return styles;
+                    }
+
+
+};
+
             //set zone layout styles
             function cdOptions(feature)  {
 
@@ -819,6 +986,8 @@
             
             //get zone layout data and styles
             zoneLayer = L.geoJson(zone, {style: zoneOptions,onEachFeature: onZoneEachFeature}); 
+            zone2024Layer = L.geoJson(cwz2024, {style: zone2024Options,onEachFeature: onZone2024EachFeature}); 
+           
             cdLayer = L.geoJson(cd, {style: {
                     weight: 1,
                     dashArray: '1',
@@ -841,9 +1010,18 @@
                     dashArray: '1',
                     opacity: 0.5,
                     fillOpacity: 0.3,
-                    fillColor: '#77a8a8',
-                    color: '#77a8a8',
+                    fillColor: '#00ffff',
+                    color: '#0000ff',
                 }, onEachFeature: onCityCouncilEachFeature});
+
+             cityCouncil2024Layer = L.geoJson(cityCouncil2024, {style: {
+                    weight: 2,
+                    dashArray: '1',
+                    opacity: 0.5,
+                    fillOpacity: 0.3,
+                    fillColor: '#6b5b95',
+                    color: '#ff6900',
+                }, onEachFeature: onCityCouncilEach2024Feature}); 
 
             stateSenateLayer = L.geoJson(stateSenate, {style: {
                     weight: 1,
@@ -868,11 +1046,14 @@
         //zoneLayer = L.geoJson(zone)
             var overlayMaps = {
                 "<span class='green-text text-darken-4 layersize'>CWZ Zones</span>": zoneLayer,
+                "<span class='green-text text-darken-4 layersize'>CWZ Zones 2024</span>": zone2024Layer,
                 "<span class='green-text text-darken-4 layersize'>Community Districts</span>": cdLayer,
                 "<span class='green-text text-darken-4 layersize'>State Assembly Districts</span>": assemblyLayer,
                 "<span class='green-text text-darken-4 layersize'>State Senate Districts</span>": stateSenateLayer,
                 "<span class='green-text text-darken-4 layersize'>U.S. Congressional Districts</span>": congressionalLayer,
-                "<span class='green-text text-darken-4 layersize'>City Council Districts</span>": cityCouncilLayer
+                "<span class='green-text text-darken-4 layersize'>City Council Districts 2024</span>": cityCouncil2024Layer,
+                "<span class='green-text text-darken-4 layersize'>Old City Council Districts</span>": cityCouncilLayer
+                
             }
             var layerControl = L.control.layers(baseMaps, overlayMaps,  {position: 'bottomright'}).addTo(map);
             googleStreets.addTo(map);
